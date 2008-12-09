@@ -3,7 +3,7 @@ module Uberkit
     def ubermenu(options = {}, &block)
       nav = NavigationMenu.new(self,options)
       yield nav
-      concat(nav.to_html, block.binding) if nav.actions.any?
+      concat(nav.to_html) if nav.actions.any?
     end
 
     class NavigationMenu < Uberkit::Displayer
@@ -13,6 +13,8 @@ module Uberkit
         @subnavs = []
         @id = options.delete(:id)
         @class_name = options.delete(:class)
+        # id text for active menu item because some pre-built templates use id instead of a CSS class
+        @active_id = options.delete(:active_id) 
       end
 
       def action_wrapper(contents, options = {}, url_for_options = {})
@@ -22,7 +24,9 @@ module Uberkit
         classes << "current" if merits_current?(contents,options,url_for_options)
         classes << "disabled" if options.delete(:disabled)    
         classes << classes.join("_") if classes.size > 1
-        content_tag(:li, contents, :class => classes.join(" "))
+        
+        li_id = merits_current?(contents,options,url_for_options) ? @active_id : ''
+        content_tag(:li, contents, :class => classes.join(" "), :id => li_id)
       end
 
       def merits_current?(contents,options={},url_for_options={})

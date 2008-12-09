@@ -3,7 +3,7 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper
-  
+
   helpers = field_helpers + %w(date_select datetime_select time_select select html_area state_select country_select) - %w(hidden_field label fields_for) 
   
   helpers.each do |name|
@@ -21,6 +21,7 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
     required = options.delete(:required)
     content_tag(:div, :class => "field_row#{' required' if required}#{' labelless' if label_text == ""}") do
       ret = label(field, (label_text || field.to_s.titleize).to_s + ":") unless label_text == ""
+      ret << '<br/>'
       ret << content
       ret << content_tag(:span, options.delete(:help), :class => "help") if options[:help]
       ret << content_tag(:span, options.delete(:description), :class => "description") if options[:description]
@@ -30,7 +31,9 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
   end
   
   def submit(text)
-    content_tag(:button, text, :type => "submit")
+    "<div class='button_holder'>" + 
+    content_tag(:button, text, :type => "submit") +
+    "</div>"
   end
   
   def custom(options = {}, &block)
