@@ -3,7 +3,9 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper
-
+  include ActionView::Helpers::AssetTagHelper
+  include Strongbits::Helpers::TooltipHelper
+  
   helpers = field_helpers + %w(date_select datetime_select time_select select html_area state_select country_select) - %w(hidden_field label fields_for) 
   
   helpers.each do |name|
@@ -13,7 +15,13 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
       class_names << name
       options[:class] = class_names.join(" ")
       args << options
-      generic_field(options[:label],field,super(field,*args),{:description => options.delete(:description), :help => options.delete(:help), :required => options.delete(:required)})
+      generic_field(options[:label],
+                    field,
+                    super(field,*args),
+                    {:description => options.delete(:description), 
+                     :help => options.delete(:help), 
+                     :required => options.delete(:required),
+                     :tooltip => options.delete(:tooltip)})
     end
   end
   
@@ -21,6 +29,10 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
     required = options.delete(:required)
     content_tag(:div, :class => "field_row#{' required' if required}#{' labelless' if label_text == ""}") do
       ret = label(field, (label_text || field.to_s.titleize).to_s + ":") unless label_text == ""
+      if options[:tooltip]
+        ret << build_tt_image(build_tt(field.to_s))
+        ret << build_tt_container(field.to_s, options[:tooltip])
+      end
       ret << '<br/>'
       ret << content
       ret << content_tag(:span, options.delete(:help), :class => "help") if options[:help]
