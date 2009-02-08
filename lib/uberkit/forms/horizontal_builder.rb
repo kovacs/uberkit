@@ -20,9 +20,9 @@ class Uberkit::Forms::HorizontalBuilder < Uberkit::Forms::Builder
 #    concat("<div class='field_row#{' labelless' unless options[:label]}'>#{"<span class='label_holder'><label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label></span>" if options[:label]}",block.binding)
 #    yield
 #    concat("</div>",block.binding)
-    concat("<tr class='field_row#{' labelless' unless options[:label]}'><td>#{"<label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label></td><td>" if options[:label]}",block.binding)
+    concat("<tr class='field_row#{' labelless' unless options[:label]}'><td>#{"<label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label></td><td>" if options[:label]}")
     yield
-    concat("</td></tr>",block.binding)
+    concat("</td></tr>")
   end
 
 end

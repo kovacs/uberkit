@@ -49,9 +49,9 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
   end
   
   def custom(options = {}, &block)
-    concat("<div class='field_row#{' labelless' unless options[:label]}'>#{"<label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label>" if options[:label]}<div class='pseudo_field'>",block.binding)
+    concat("<div class='field_row#{' labelless' unless options[:label]}'>#{"<label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label>" if options[:label]}<div class='pseudo_field'>")
     yield
-    concat("</div> <br/></div>",block.binding)
+    concat("</div> <br/></div>")
   end 
   
   def array_from_classes(html_classes)
