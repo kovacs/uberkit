@@ -2,7 +2,8 @@ class Uberkit::Forms::HorizontalBuilder < Uberkit::Forms::Builder
   def generic_field(label_text,field,content,options = {})
     required = options.delete(:required)
     content_tag(:tr, :class => "field_row#{' required' if required}#{' labelless' if label_text == ""}") do
-      ret = label(field, (label_text || field.to_s.titleize).to_s + ":") unless label_text == ""
+      ret = '<td>'
+      ret << label(field, (label_text || field.to_s.titleize).to_s + ":") unless label_text == ""
       if options[:tooltip]
         ret << build_tt_image(build_tt(field.to_s))
         ret << build_tt_container(field.to_s, options[:tooltip])
