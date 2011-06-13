@@ -18,12 +18,9 @@ class Uberkit::Forms::HorizontalBuilder < Uberkit::Forms::Builder
   end
 
   def custom(options = {}, &block)
-#    concat("<div class='field_row#{' labelless' unless options[:label]}'>#{"<span class='label_holder'><label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label></span>" if options[:label]}",block.binding)
-#    yield
-#    concat("</div>",block.binding)
-    concat("<tr class='field_row#{' labelless' unless options[:label]}'><td>#{"<label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]}</label></td><td>" if options[:label]}")
+    concat("<div class='yui-gd field_row'><div class='yui-u first'><label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ":" if options[:label]} </label></div><div class='yui-u'>")
     yield
-    concat("</td></tr>")
+    concat("</div></div>")
   end
 
 end
