@@ -32,7 +32,7 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
       ret << label(field, (label_text || field.to_s.titleize).to_s + ": ") unless label_text == ""
       if options[:tooltip]
         ret << build_tt_image(build_tt(field.to_s))
-        ret << build_tt_container(field.to_s, options[:tooltip])
+        ret << build_tt_container(build_tt(field.to_s), options[:tooltip])
       end
       ret << "</div>"
       ret << content
@@ -53,7 +53,7 @@ class Uberkit::Forms::Builder < ActionView::Helpers::FormBuilder
     concat("<div class='field_row#{' labelless' unless options[:label]}'>#{"<div class='label'><label#{" for='#{options[:for]}'" if options[:for]}>#{options[:label] + ": " if options[:label]}</label>" if options[:label]}")
 
     concat("#{build_tt_image(build_tt(options[:label])) if options[:tooltip]}</div><div class='pseudo_field'>")
-    concat("#{build_tt_container(options[:label], options[:tooltip])}") if options[:tooltip]
+    concat("#{build_tt_container(build_tt(options[:label]), options[:tooltip])}") if options[:tooltip]
     yield
     concat("</div> </div>")
   end 
